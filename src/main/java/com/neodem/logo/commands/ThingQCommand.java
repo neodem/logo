@@ -1,5 +1,6 @@
 package com.neodem.logo.commands;
 
+import com.neodem.logo.args.Arg;
 import com.neodem.logo.memory.Memory;
 import com.neodem.logo.util.Util;
 
@@ -20,9 +21,9 @@ public class ThingQCommand extends BaseCommand implements Command {
      * @param consoleOut
      */
     @Override
-    public void handle(List<String> args, PrintStream consoleOut) {
+    public void handle(List<Arg> args, PrintStream consoleOut) {
         if (args.size() == 1) {
-            if (memory.getVariable(Util.stripMakeVariable(args.getFirst())) == null) {
+            if (memory.getVariable(Util.stripMakeVariable(args.getFirst().getArgValue())) == null) {
                 consoleOut.println("TRUE");
             } else {
                 consoleOut.println("FALSE");

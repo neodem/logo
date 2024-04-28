@@ -1,5 +1,6 @@
 package com.neodem.logo.commands;
 
+import com.neodem.logo.args.Arg;
 import com.neodem.logo.memory.Memory;
 import com.neodem.logo.util.Maths;
 import com.neodem.logo.util.Util;
@@ -30,12 +31,12 @@ public class PrintCommand extends BaseCommand implements Command {
      * @param consoleOut
      */
     @Override
-    public void handle(List<String> args, PrintStream consoleOut) {
+    public void handle(List<Arg> args, PrintStream consoleOut) {
         if (args.isEmpty()) {
             consoleOut.println();
         } else {
             if (args.size() == 1) {
-                String arg = args.getFirst();
+                String arg = args.getFirst().getArgValue();
                 if (Util.isGetVariable(arg)) {
                     Object variable = memory.getVariable(Util.stripGetVariable(arg));
                     if (variable == null) {
@@ -47,14 +48,14 @@ public class PrintCommand extends BaseCommand implements Command {
                     consoleOut.println(arg);
                 }
             } else {
-                String expression = String.join(" ", args);
-                if (!Util.isArithmeticExpression(expression)) {
-                    consoleOut.println("Syntax Error: PRINT expects one argument or a math expression");
-                    return;
-                }
-
-                Number number = Maths.computeExpression(expression);
-                consoleOut.println(number);
+//                String expression = String.join(" ", args);
+//                if (!Util.isArithmeticExpression(expression)) {
+//                    consoleOut.println("Syntax Error: PRINT expects one argument or a math expression");
+//                    return;
+//                }
+//
+//                Number number = Maths.computeExpression(expression);
+//                consoleOut.println(number);
             }
         }
     }

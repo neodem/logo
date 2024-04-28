@@ -1,5 +1,6 @@
 package com.neodem.logo.commands;
 
+import com.neodem.logo.args.Arg;
 import com.neodem.logo.memory.Memory;
 
 import java.io.PrintStream;
@@ -16,7 +17,7 @@ public class ThingCommand extends BaseCommand implements Command {
      * @param consoleOut
      */
     @Override
-    public void handle(List<String> args, PrintStream consoleOut) {
+    public void handle(List<Arg> args, PrintStream consoleOut) {
 
     }
 

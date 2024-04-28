@@ -1,4 +1,7 @@
 package com.neodem.logo.args;
 
-public class ExpressionArg implements Arg {
+public class ExpressionArg extends ArgBase implements Arg {
+    public ExpressionArg(String expression) {
+        super(expression);
+    }
 }

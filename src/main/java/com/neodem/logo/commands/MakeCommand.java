@@ -1,5 +1,6 @@
 package com.neodem.logo.commands;
 
+import com.neodem.logo.args.Arg;
 import com.neodem.logo.memory.Memory;
 import com.neodem.logo.util.Util;
 
@@ -31,13 +32,13 @@ public class MakeCommand extends BaseCommand implements Command {
      * @param consoleOut
      */
     @Override
-    public void handle(List<String> args, PrintStream consoleOut) {
+    public void handle(List<Arg> args, PrintStream consoleOut) {
         if (args.size() != 2) {
             consoleOut.println("Syntax Error: MAKE expects two arguments");
         } else {
-            if (Util.isMakeVariable(args.getFirst())) {
-                Object actualValue = Util.convertValue(args.get(1));
-                memory.setVariable(Util.stripMakeVariable(args.getFirst()), actualValue);
+            if (Util.isMakeVariable(args.getFirst().getArgValue())) {
+                Object actualValue = Util.convertValue(args.get(1).getArgValue());
+                memory.setVariable(Util.stripMakeVariable(args.getFirst().getArgValue()), actualValue);
             } else {
                 // evaluate the first variable TODO
             }
