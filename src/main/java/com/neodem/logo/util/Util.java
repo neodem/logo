@@ -7,8 +7,11 @@ import java.util.List;
 import java.util.Stack;
 
 public class Util {
+
+    public static final String SPECIAL_CHARS = "()+-*/";
+
     public static boolean isArithmeticExpression(String expression) {
-        // Remove whitespace from the expression string
+        // Remove whitespace (if any) from the expression string
         expression = expression.replaceAll("\\s", "");
 
         Stack<Character> stack = new Stack<>();
@@ -147,10 +150,10 @@ public class Util {
 
     public static List<String> breakUpToken(String token) {
         List<String> result = new ArrayList<>();
-        String specialChars = "()+-*/";
+
         StringBuilder b = new StringBuilder();
         for (char c : token.toCharArray()) {
-            if (specialChars.indexOf(c) == -1) {
+            if (SPECIAL_CHARS.indexOf(c) == -1) {
                 // not a special character.. append to string (if not a space)
                 if (c == 32) continue;
                 b.append(c);
@@ -170,12 +173,11 @@ public class Util {
     }
 
     public static boolean containsParamOrOperator(String token) {
-        String specialChars = "()+-*/";
 
         // Iterate through each character in the string
         for (char c : token.toCharArray()) {
             // Check if the character is one of the special characters
-            if (specialChars.indexOf(c) != -1) {
+            if (SPECIAL_CHARS.indexOf(c) != -1) {
                 return true;
             }
         }
@@ -183,54 +185,24 @@ public class Util {
     }
 
     /**
-     * we would like a well formed list of args, which means if we see an operator or paren
-     * with something stuck to it, we add a space.
-     * <p>
-     * ex: "(3" becomes "(", " ", "3"
-     *
-     * @param args
+     * every token should be seperated by spaces
+     * @param tokens
      * @return
      */
-    public static List<String> correctSpaces(@NotNull List<String> args) {
-        List<String> spacedTokens = new ArrayList<>();
+    public static List<String> addSpaces(@NotNull List<String> tokens) {
+        List<String> result = new ArrayList<>();
 
-
-        boolean start = true;
-        boolean end = false;
-        for (String token : args) {
-
-            StringBuilder b = new StringBuilder();
-            for (int i = 0; i < token.length(); i++) {
-                if (i == token.length() - 1)
-                    end = true;
-
-                char c = token.charAt(i);
-
-                // Add space before and after operators and parentheses
-                if (isOperator(c) || c == '(' || c == ')') {
-
-                    if (!b.isEmpty()) {
-                        spacedTokens.add(b.toString());
-                        b = new StringBuilder();
-                    }
-
-                    if (!start)
-                        spacedTokens.add(" ");
-
-                    spacedTokens.add("" + c);
-
-                    if (!end)
-                        spacedTokens.add(" ");
-                } else {
-                    b.append(c);
+        boolean alt = true;
+        for(String token : tokens) {
+            if(!" ".equals(token)) {
+                result.add(token);
+                if(alt) {
+                    result.add(" ");
+                    alt = false;
                 }
-                start = false;
-            }
-            if (!b.isEmpty()) {
-                spacedTokens.add(b.toString());
             }
         }
 
-        return spacedTokens;
+        return result;
     }
 }

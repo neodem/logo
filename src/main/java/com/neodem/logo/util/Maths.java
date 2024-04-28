@@ -1,6 +1,12 @@
 package com.neodem.logo.util;
 
 public class Maths {
+
+    /**
+     * requires expression to be well formed (spaces break things up)
+     * @param expression
+     * @return
+     */
     public static Number computeExpression(String expression) {
         // Split the expression into operands and operators
         String[] tokens = expression.split(" ");
