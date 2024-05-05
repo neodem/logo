@@ -1,6 +1,7 @@
 package com.neodem.logo.commands;
 
 import com.neodem.logo.args.Arg;
+import com.neodem.logo.args.MemoryArg;
 import com.neodem.logo.memory.Memory;
 import com.neodem.logo.util.Util;
 
@@ -36,11 +37,24 @@ public class MakeCommand extends BaseCommand implements Command {
         if (args.size() != 2) {
             consoleOut.println("Syntax Error: MAKE expects two arguments");
         } else {
-            if (Util.isMakeVariable(args.getFirst().getArgValue())) {
-                Object actualValue = Util.convertValue(args.get(1).getArgValue());
-                memory.setVariable(Util.stripMakeVariable(args.getFirst().getArgValue()), actualValue);
+            Arg key = args.get(0);
+
+            if(key instanceof MemoryArg memoryArg) {
+                String keyValue = key.getArgValue();
+                // todo validate key value
+
+                if(memoryArg.isSave()) {
+                    Arg value = args.get(1);
+
+                    // todo is value an expression?
+
+                    Object actualValue = Util.convertValue(value.getArgValue());
+                    memory.setVariable(keyValue, actualValue);
+                } else {
+                    consoleOut.println("Syntax Error: In a MAKE we only can save variables, not get");
+                }
             } else {
-                // evaluate the first variable TODO
+                consoleOut.println("Syntax Error: MAKE command expects a key name, not '" + key.getArgValue() + "'");
             }
         }
     }

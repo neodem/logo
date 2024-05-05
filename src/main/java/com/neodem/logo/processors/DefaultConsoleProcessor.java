@@ -12,6 +12,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import static com.neodem.logo.util.Util.removeExtraSpaces;
+
 public class DefaultConsoleProcessor implements ConsoleProcessor {
 
     private final Map<String, Command> commandMap;
@@ -30,6 +32,9 @@ public class DefaultConsoleProcessor implements ConsoleProcessor {
         if (inputString == null || inputString.isEmpty()) {
             return;
         }
+
+        inputString = removeExtraSpaces(inputString);
+
         List<Arg> args;
         try {
              args = parseArgs(inputString);
@@ -102,6 +107,18 @@ public class DefaultConsoleProcessor implements ConsoleProcessor {
                 }
                 // save as an expression
                 args.add(new ExpressionArg(b.toString()));
+            } else if(chars[i] == ':' || chars[i] == '"') {
+                boolean save = chars[i] == '"';
+
+                // read until a non letter
+                StringBuilder b = new StringBuilder();
+                i++;
+                while (i < len && Character.isLetter(chars[i])) {
+                    b.append(chars[i]);
+                    i++;
+                }
+                // save as a memory arg
+                args.add(new MemoryArg(b.toString(), save));
             }
             i++;
         }

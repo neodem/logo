@@ -12,6 +12,6 @@ public abstract class ArgBase {
     }
 
     public String compute() {
-        return null;
+        return argValue;
     }
 }

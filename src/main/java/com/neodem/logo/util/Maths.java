@@ -1,5 +1,7 @@
 package com.neodem.logo.util;
 
+import static com.neodem.logo.util.Util.addSpaces;
+
 public class Maths {
 
     /**
@@ -8,8 +10,10 @@ public class Maths {
      * @return
      */
     public static Number computeExpression(String expression) {
+        String spaced = addSpaces(expression);
+
         // Split the expression into operands and operators
-        String[] tokens = expression.split(" ");
+        String[] tokens = spaced.split(" ");
 
         if (allIntegers(tokens)) {
             return integerMaths(tokens);

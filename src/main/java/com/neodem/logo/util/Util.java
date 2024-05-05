@@ -38,7 +38,7 @@ public class Util {
     }
 
     private static boolean isOperator(char c) {
-        return c == '+' || c == '-' || c == '*' || c == '/';
+        return c == '+' || c == '-' || c == '*' || c == '/' || c == ')' || c == '(';
     }
 
     private static boolean isDigit(char c) {
@@ -184,6 +184,25 @@ public class Util {
         return false;
     }
 
+    public static String addSpaces(String expression) {
+        if(expression == null) return null;
+        StringBuilder b = new StringBuilder();
+
+        for (char c : expression.toCharArray()) {
+            if(c != 32) {
+                if (isOperator(c)) {
+                    b.append(" ");
+                    b.append(c);
+                    b.append(" ");
+                } else {
+                    b.append(c);
+                }
+            }
+        }
+
+        return b.toString();
+    }
+
     /**
      * every token should be seperated by spaces
      * @param tokens
@@ -204,5 +223,15 @@ public class Util {
         }
 
         return result;
+    }
+
+    public static String removeExtraSpaces(String input) {
+        // Remove leading spaces
+        String trimmed = input.replaceAll("^\\s+", "");
+
+        // Condense multiple spaces into a single space
+        String condensed = trimmed.replaceAll("\\s{2,}", " ");
+
+        return condensed;
     }
 }
